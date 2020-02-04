@@ -93,10 +93,37 @@ namespace BowlingTests
 
             Assert.AreEqual(output.ToString(), $"How many players?{Environment.NewLine}How many players?{Environment.NewLine}");
         }
+
         [Test]
-        public void TestTest()
+        public void NoScoreEnteredShouldbeGreaterThan10()
         {
-            // test commit
+            var output = new StringWriter();
+            Console.SetOut(output);
+            var input = new StringReader("2");
+            Console.SetIn(input);
+
+            Game.SetupPlayers();
+
+            Game.CurrentPlayer.AddScore(5);
+            Game.CurrentPlayer.AddScore(6);
+
+            Assert.AreEqual(5, Game.Players[0].Frames[0].Scores[0]);
+            Assert.AreEqual(5, Game.Players[0].Frames[0].Scores[1]);
+        }
+
+        [Test]
+        public void NoScoreEnteredShouldbeGreaterThan10OnFirstThrow()
+        {
+            var output = new StringWriter();
+            Console.SetOut(output);
+            var input = new StringReader("2");
+            Console.SetIn(input);
+
+            Game.SetupPlayers();
+
+            Game.CurrentPlayer.AddScore(11);
+
+            Assert.AreEqual(10, Game.Players[0].Frames[0].Scores[0]);
         }
     }
 }

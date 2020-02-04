@@ -7,7 +7,9 @@ namespace BowlingProgram
     public class BowlingGame
     {
         public List<Player> Players { get; } = new List<Player>();
-        public Player CurrentPlayer { get; set; }
+
+        public Player CurrentPlayer =>
+            Players.First(x => x.CurrentFrameIndex == Players.Min(y => y.CurrentFrameIndex));
         //
 
 
@@ -23,18 +25,13 @@ namespace BowlingProgram
             {
                 Players.Add(new Player());
             }
-
-            CurrentPlayer = Players.First();
         }
 
         public void AskForScore()
         {
+            var currentFrame = CurrentPlayer.CurrentFrameIndex;
             CurrentPlayer.AskForScore();
-            if (CurrentPlayer.Frames.First().Scores.All(x => x != null))
-            {
-                CurrentPlayer = Players[(Players.IndexOf(CurrentPlayer) + 1) % Players.Count];
-                Console.Out.WriteLine($"Player {Players.IndexOf(CurrentPlayer)+1}");
-            }
+            Console.Out.WriteLine($"Player {Players.IndexOf(CurrentPlayer)+1}");
         }
     }
 }
