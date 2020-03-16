@@ -8,8 +8,13 @@ namespace BowlingProgram
     {
         public List<Player> Players { get; } = new List<Player>();
 
-        public Player CurrentPlayer =>
-            Players.First(x => x.CurrentFrameIndex == Players.Min(y => y.CurrentFrameIndex));
+        public Player GetCurrentPlayer()
+        {
+            if(Players.Any(x => x.CurrentFrameIndex >= 0))
+                return Players.FirstOrDefault(x => x.CurrentFrameIndex == Players.Where(x => x.CurrentFrameIndex >= 0).Min(y => y.CurrentFrameIndex));
+            return null;
+        }
+
         //
 
 
@@ -23,15 +28,32 @@ namespace BowlingProgram
 
             for (var i = 0; i < numberOfPlayers; i++)
             {
-                Players.Add(new Player());
+                Players.Add(new Player(i));
             }
         }
 
         public void AskForScore()
         {
-            var currentFrame = CurrentPlayer.CurrentFrameIndex;
-            CurrentPlayer.AskForScore();
-            Console.Out.WriteLine($"Player {Players.IndexOf(CurrentPlayer)+1}");
+            var currentFrame = GetCurrentPlayer().CurrentFrameIndex;
+            GetCurrentPlayer().AskForScore();
+            Console.Clear();
+            // ==============================================================================================================
+            // | 1      |X  |9/ |5-
+            // |        |20 |35 |40
+            // 
+            Console.WriteLine("==============================================================================================================");
+            Players.ForEach(x => Console.Write(x.ToString()));
+
+            if (GetCurrentPlayer() != null)
+                Console.Out.WriteLine($"Player {Players.IndexOf(GetCurrentPlayer()) +1}");
         }
+
+        public bool GameRunning => Players.Any(x => x.CurrentFrameIndex != -1);
+    }
+
+    public class GameConfig
+    {
+        protected const int NUMBER_FRAMES = 2;
+        protected const int MAX_FRAME_SCORE = 10;
     }
 }

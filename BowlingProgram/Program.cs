@@ -8,12 +8,10 @@ namespace BowlingProgram
         {
             var game = new BowlingGame();
             game.SetupPlayers();
-            game.AskForScore();
-            game.AskForScore();
-            game.AskForScore();
-            game.AskForScore();
-            game.AskForScore();
-            game.AskForScore();
+            while (game.GameRunning)
+            {
+                game.AskForScore();
+            }
         }
     }
 }

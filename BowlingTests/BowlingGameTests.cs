@@ -104,8 +104,8 @@ namespace BowlingTests
 
             Game.SetupPlayers();
 
-            Game.CurrentPlayer.AddScore(5);
-            Game.CurrentPlayer.AddScore(6);
+            Game.GetCurrentPlayer().AddScore(5);
+            Game.GetCurrentPlayer().AddScore(6);
 
             Assert.AreEqual(5, Game.Players[0].Frames[0].Scores[0]);
             Assert.AreEqual(5, Game.Players[0].Frames[0].Scores[1]);
@@ -121,7 +121,7 @@ namespace BowlingTests
 
             Game.SetupPlayers();
 
-            Game.CurrentPlayer.AddScore(11);
+            Game.GetCurrentPlayer().AddScore(11);
 
             Assert.AreEqual(10, Game.Players[0].Frames[0].Scores[0]);
         }
